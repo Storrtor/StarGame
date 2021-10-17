@@ -10,23 +10,30 @@ public class MenuScreen extends BaseScreen {
 
     private Texture img;
     private Vector2 touch;
-    private Vector2 v;
+    private Vector2 v2;
+    private Vector2 start;
+    private float f;
 
     @Override
     public void show() {
         super.show();
         img = new Texture("badlogic.jpg");
+        start = new Vector2(0,0);
         touch = new Vector2();
-        v = new Vector2(1,1);
+        v2 = new Vector2();
+
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(img, touch.x, touch.y);
+        batch.draw(img, start.x, start.y);
         batch.end();
-        touch.add(v);
+        if (f > 0) {
+            start.add(v2.nor());
+            f--;
+        }
     }
 
     @Override
@@ -38,6 +45,8 @@ public class MenuScreen extends BaseScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+        v2 = touch.cpy().sub(start);
+        f = touch.cpy().sub(start).len();
         return super.touchDown(screenX, screenY, pointer, button);
     }
 }
