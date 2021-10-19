@@ -1,52 +1,58 @@
 package stortor.com.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import stortor.com.base.BaseScreen;
+import stortor.com.math.Rect;
+import stortor.com.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
 
+    private Texture bg;
     private Texture img;
-    private Vector2 touch;
-    private Vector2 direction;
-    private Vector2 start;
-    private float length;
+    private Vector2 pos;
+
+    private Background background;
 
     @Override
     public void show() {
         super.show();
+        bg = new Texture("textures/bg.png");
+        background  = new Background(bg);
         img = new Texture("badlogic.jpg");
-        start = new Vector2(0,0);
-        touch = new Vector2();
-        direction = new Vector2();
+        pos = new Vector2(0,0);
+    }
 
+    @Override
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(img, start.x, start.y);
+        background.draw(batch);
+        batch.draw(img, pos.x, pos.y, 0.5f, 0.5f);
         batch.end();
-        if (length > 0) {
-            start.add(direction.nor());
-            length--;
-        }
+
     }
 
     @Override
     public void dispose() {
         super.dispose();
+        bg.dispose();
         img.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
-        direction = touch.cpy().sub(start);
-        length = touch.cpy().sub(start).len();
-        return super.touchDown(screenX, screenY, pointer, button);
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        pos.set(touch);
+        return super.touchDown(touch, pointer, button);
     }
+
+
+
 }
