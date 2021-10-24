@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.width = 500;
 		config.height = 700;
 		config.resizable = false;
+//		config.foregroundFPS = 60;
 		new LwjglApplication(new StarGame(), config);
 	}
 }
