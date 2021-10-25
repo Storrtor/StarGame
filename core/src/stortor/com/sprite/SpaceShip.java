@@ -1,5 +1,7 @@
 package stortor.com.sprite;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -39,6 +41,11 @@ public class SpaceShip extends Sprite {
         }
         if (touch.x < this.pos.x){
             pos.sub(v);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)){
+            this.pos.x = this.pos.x + 0.005f;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+            this.pos.x = this.pos.x - 0.005f;
         }
     }
 

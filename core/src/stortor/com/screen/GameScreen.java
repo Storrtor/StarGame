@@ -15,9 +15,6 @@ public class GameScreen extends BaseScreen {
     private static final int STAR_COUNT = 64;
     private Vector2 v;
 
-    private boolean pressed;
-    private int keycodePressed;
-
     private Texture bg;
     private Background background;
     private TextureAtlas atlas;
@@ -62,25 +59,13 @@ public class GameScreen extends BaseScreen {
         bg.dispose();
     }
 
-    // Не смогла инкапсулировать логику управления кораблем в класс корабля, потому что у нас привязка к клавиатуре
-    // которая может быть реализована только в класах наследуемых от класса BaseScreen
-    // (если я правильно поняла происходящее в коде)
     @Override
     public boolean keyDown(int keycode) {
-        pressed = true;
-        if (keycode == 21 || keycode == 29) {
-            spaceShip.pos.x = spaceShip.pos.x - 0.005f;
-        }
-        if (keycode == 22 || keycode == 32) {
-            spaceShip.pos.x = spaceShip.pos.x + 0.005f;
-        }
-        keycodePressed = keycode;
         return super.keyDown(keycode);
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        pressed = false;
         return super.keyUp(keycode);
     }
 
@@ -100,9 +85,6 @@ public class GameScreen extends BaseScreen {
             star.update(delta);
         }
         spaceShip.update(delta);
-        if (pressed) {
-            keyDown(keycodePressed);
-        }
     }
 
     private void draw() {
