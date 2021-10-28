@@ -1,10 +1,10 @@
 package stortor.com.sprite;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
 
 import stortor.com.base.Sprite;
 import stortor.com.math.Rect;
@@ -13,7 +13,7 @@ import stortor.com.pool.BulletPool;
 public class MainShip extends Sprite {
 
     private static final float HEIGHT = 0.15f;
-    private static final float BOTTOM_MARGIN = 0.03f; // отступ
+    private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
 
     private final BulletPool bulletPool;
@@ -32,7 +32,7 @@ public class MainShip extends Sprite {
     private int rightPointer = INVALID_POINTER;
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
-        super(atlas.findRegion("main_ship"), 1,2,2);
+        super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletV = new Vector2(0, 0.5f);
@@ -144,16 +144,16 @@ public class MainShip extends Sprite {
         return false;
     }
 
-    private void moveRight(){
+    private void moveRight() {
         v.set(v0);
     }
 
-    private void moveLeft(){
+    private void moveLeft() {
         v.set(v0).rotateDeg(180);
     }
 
-    private void stop(){
-        v.setZero(); // обнуление вектора
+    private void stop() {
+        v.setZero();
     }
 
     private void shoot() {
