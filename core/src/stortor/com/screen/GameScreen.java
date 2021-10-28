@@ -1,5 +1,7 @@
 package stortor.com.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +18,8 @@ public class GameScreen extends BaseScreen {
     private static final int STAR_COUNT = 64;
     private Vector2 v;
 
+    private Music music;
+
     private Texture bg;
     private Background background;
     private TextureAtlas atlas;
@@ -28,6 +32,9 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.setVolume(0.2f);
+        music.setLooping(true);
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
         bg = new Texture("textures/bg.png");
         background = new Background(bg);
@@ -64,6 +71,8 @@ public class GameScreen extends BaseScreen {
         atlas.dispose();
         bg.dispose();
         bulletPool.dispose();
+        music.dispose();
+        mainShip.dispose();
     }
 
     @Override
@@ -94,6 +103,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.update(delta);
         }
+        music.play();
         bulletPool.updateActiveObjects(delta);
         mainShip.update(delta);
     }

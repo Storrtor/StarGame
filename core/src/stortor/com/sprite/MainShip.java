@@ -1,10 +1,14 @@
 package stortor.com.sprite;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
 import stortor.com.base.Sprite;
 import stortor.com.math.Rect;
@@ -15,12 +19,16 @@ public class MainShip extends Sprite {
     private static final float HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
+    private static final float TIME_SINCE_COLLISION = 0.5f;
+    private static float TIME_ZERO = 0;
 
     private final BulletPool bulletPool;
     private final TextureRegion bulletRegion;
     private final Vector2 bulletV;
     private final float bulletHeight;
     private final int damage;
+
+    private Sound sound;
 
     private final Vector2 v;
     private final Vector2 v0;
@@ -40,6 +48,7 @@ public class MainShip extends Sprite {
         this.damage = 1;
         this.v = new Vector2();
         this.v0 = new Vector2(0.5f, 0);
+        this.sound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
     }
 
     @Override
@@ -61,6 +70,12 @@ public class MainShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
+        TIME_ZERO += delta;
+        if (TIME_ZERO >= TIME_SINCE_COLLISION) {
+            TIME_ZERO -= TIME_SINCE_COLLISION;
+            shoot();
+        }
+
     }
 
     @Override
@@ -158,7 +173,12 @@ public class MainShip extends Sprite {
 
     private void shoot() {
         Bullet bullet = bulletPool.obtain();
+        sound.play(0.005f);
         bullet.set(this, bulletRegion, this.pos, bulletV, worldBounds, bulletHeight, damage);
+    }
+
+    public void dispose() {
+        sound.dispose();
     }
 
 }
