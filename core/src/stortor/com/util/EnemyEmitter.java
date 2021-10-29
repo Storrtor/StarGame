@@ -96,7 +96,8 @@ public class EnemyEmitter {
                         ENEMY_BIG_BULLET_HEIGHT,
                         bulletBigV,
                         ENEMY_BIG_BULLET_DAMAGE,
-                        ENEMY_BIG_HP, ENEMY_BIG_RELOAD_INTERVAL,
+                        ENEMY_BIG_HP,
+                        ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT
                 );
             }
