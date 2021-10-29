@@ -122,6 +122,11 @@ public class GameScreen extends BaseScreen {
         mainShip.update(delta);
         enemyPool.updateActiveObjects(delta);
         enemyEmitter.generate(delta);
+        for (int i = 0; i < enemyPool.getActiveObjects().size(); i++) {
+            if (!enemyPool.getActiveObjects().get(i).isOutside(mainShip)){
+                enemyPool.getActiveObjects().get(i).destroy();
+            }
+        }
     }
 
     private void freeAllDestroyed() {

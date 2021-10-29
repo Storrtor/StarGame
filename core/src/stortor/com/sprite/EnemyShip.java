@@ -10,6 +10,8 @@ import stortor.com.pool.BulletPool;
 
 public class EnemyShip extends Ship {
 
+    private Vector2 startV;
+
     public EnemyShip(BulletPool bulletPool, Rect worldBounds, Sound bulletSound) {
         this.bulletPool = bulletPool;
         this.worldBounds = worldBounds;
@@ -18,6 +20,7 @@ public class EnemyShip extends Ship {
         this.bulletPos = new Vector2();
         this.v = new Vector2();
         this.v0 = new Vector2();
+        this.startV = new Vector2();
     }
 
     @Override
@@ -25,6 +28,11 @@ public class EnemyShip extends Ship {
         super.update(delta);
         if (getBottom() < worldBounds.getBottom()) {
             destroy();
+        }
+        if (getTop() > worldBounds.getTop()) {
+            this.v.set(0f, -0.7f);
+        } else if (getTop() < worldBounds.getTop()) {
+            this.v.set(startV);
         }
     }
 
@@ -41,6 +49,7 @@ public class EnemyShip extends Ship {
     ) {
         this.regions = regions;
         this.v.set(v);
+        this.startV.set(v);
         this.bulletRegion = bulletRegion;
         this.bulletHeight = bulletHeight;
         this.bulletV.set(bulletV);

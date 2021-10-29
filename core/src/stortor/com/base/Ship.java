@@ -27,6 +27,8 @@ public class Ship extends Sprite {
 
     protected Rect worldBounds;
 
+    private boolean isShot;
+
     public Ship() {
     }
 
@@ -44,10 +46,15 @@ public class Ship extends Sprite {
     public void update(float delta) {
         pos.mulAdd(v, delta);
         reloadTimer += delta;
+        if (getTop() < worldBounds.getTop() && !isShot) {
+            reloadTimer = reloadInterval;
+            this.isShot = true;
+        }
         if (reloadTimer >= reloadInterval) {
-            reloadTimer = 0f;
             shoot();
+            reloadTimer = 0f;
         }
         bulletPos.set(pos);
     }
+
 }

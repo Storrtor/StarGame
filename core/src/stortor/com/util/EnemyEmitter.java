@@ -72,7 +72,8 @@ public class EnemyEmitter {
                         ENEMY_SMALL_BULLET_HEIGHT,
                         bulletSmallV,
                         ENEMY_SMALL_BULLET_DAMAGE,
-                        ENEMY_SMALL_HP, ENEMY_SMALL_RELOAD_INTERVAL,
+                        ENEMY_SMALL_HP,
+                        ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT
                 );
             } else if (type < 0.8f) {
@@ -83,7 +84,8 @@ public class EnemyEmitter {
                         ENEMY_MEDIUM_BULLET_HEIGHT,
                         bulletMediumV,
                         ENEMY_MEDIUM_BULLET_DAMAGE,
-                        ENEMY_MEDIUM_HP, ENEMY_SMALL_RELOAD_INTERVAL,
+                        ENEMY_MEDIUM_HP,
+                        ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT
                 );
             } else {
@@ -94,7 +96,7 @@ public class EnemyEmitter {
                         ENEMY_BIG_BULLET_HEIGHT,
                         bulletBigV,
                         ENEMY_BIG_BULLET_DAMAGE,
-                        ENEMY_BIG_HP, ENEMY_SMALL_RELOAD_INTERVAL,
+                        ENEMY_BIG_HP, ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT
                 );
             }
