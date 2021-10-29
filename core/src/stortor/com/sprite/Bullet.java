@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import stortor.com.base.Sprite;
 import stortor.com.math.Rect;
 
-
 public class Bullet extends Sprite {
 
     private final Vector2 v = new Vector2();

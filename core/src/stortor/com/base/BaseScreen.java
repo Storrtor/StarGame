@@ -16,7 +16,7 @@ import stortor.com.math.Rect;
 public class BaseScreen implements Screen, InputProcessor {
 
     private Rect screenBounds;  //пиксели
-    private Rect worldBounds;  // мировая система
+    protected Rect worldBounds;  // мировая система
     private Rect glBounds;  // open gl сетка
 
     private Matrix4 worldToGl;
