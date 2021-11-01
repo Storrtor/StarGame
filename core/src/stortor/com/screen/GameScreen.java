@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
 import stortor.com.base.BaseScreen;
 import stortor.com.math.Rect;
 import stortor.com.pool.BulletPool;
 import stortor.com.pool.EnemyPool;
 import stortor.com.sprite.Background;
+import stortor.com.sprite.EnemyShip;
 import stortor.com.sprite.MainShip;
 import stortor.com.sprite.Star;
 import stortor.com.util.EnemyEmitter;
@@ -63,8 +66,17 @@ public class GameScreen extends BaseScreen {
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        checkCollisions();
         freeAllDestroyed();
         draw();
+    }
+
+    private void checkCollisions() {
+        for (int i = 0; i < enemyPool.getActiveObjects().size(); i++) {
+            if (!enemyPool.getActiveObjects().get(i).isOutside(mainShip)){
+                enemyPool.getActiveObjects().get(i).destroy();
+            }
+        }
     }
 
     @Override
@@ -122,11 +134,6 @@ public class GameScreen extends BaseScreen {
         mainShip.update(delta);
         enemyPool.updateActiveObjects(delta);
         enemyEmitter.generate(delta);
-        for (int i = 0; i < enemyPool.getActiveObjects().size(); i++) {
-            if (!enemyPool.getActiveObjects().get(i).isOutside(mainShip)){
-                enemyPool.getActiveObjects().get(i).destroy();
-            }
-        }
     }
 
     private void freeAllDestroyed() {
