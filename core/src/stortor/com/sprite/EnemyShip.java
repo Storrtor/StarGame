@@ -7,14 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 import stortor.com.base.Ship;
 import stortor.com.math.Rect;
 import stortor.com.pool.BulletPool;
+import stortor.com.pool.ExplosionPool;
 
 public class EnemyShip extends Ship {
 
     private Vector2 startV;
 
-    public EnemyShip(BulletPool bulletPool, Rect worldBounds, Sound bulletSound) {
+    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound bulletSound) {
         this.bulletPool = bulletPool;
         this.worldBounds = worldBounds;
+        this.explosionPool = explosionPool;
         this.bulletSound = bulletSound;
         this.bulletV = new Vector2();
         this.bulletPos = new Vector2();
@@ -59,4 +61,13 @@ public class EnemyShip extends Ship {
         setHeightProportion(height);
     }
 
+    public boolean isBulletCollision(Bullet bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y
+        );
+    }
 }
+
+
