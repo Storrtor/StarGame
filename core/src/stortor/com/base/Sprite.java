@@ -83,7 +83,7 @@ public class Sprite extends Rect {
         this.scale = scale;
     }
 
-    public void destroy() {
+    public void destroy () {
         destroyed = true;
     }
 
@@ -94,4 +94,5 @@ public class Sprite extends Rect {
     public boolean isDestroyed() {
         return destroyed;
     }
+
 }

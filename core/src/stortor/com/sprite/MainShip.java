@@ -161,4 +161,13 @@ public class MainShip extends Ship {
         v.setZero();
     }
 
+    public void setDefaultValues() {
+        this.stop();
+        this.flushDestroy();
+        this.pos.x = 0;
+        this.reloadTimer = 0f;
+        frame = 0;
+
+    }
+
 }
