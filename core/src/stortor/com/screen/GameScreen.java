@@ -215,7 +215,7 @@ public class GameScreen extends BaseScreen {
         List<EnemyShip> enemyShipList = enemyPool.getActiveObjects();
         for (EnemyShip enemyShip : enemyShipList) {
             if (!enemyShip.isDestroyed()) {
-                enemyShip.destroyWithoutBoom();
+                enemyShip.destroy();
             }
         }
         List<Bullet> bulletList = bulletPool.getActiveObjects();

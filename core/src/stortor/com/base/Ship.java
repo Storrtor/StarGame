@@ -68,10 +68,6 @@ public class Ship extends Sprite {
         boom();
     }
 
-    public void destroyWithoutBoom() {
-        super.destroy();
-    }
-
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
