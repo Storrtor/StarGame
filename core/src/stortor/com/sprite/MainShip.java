@@ -167,7 +167,6 @@ public class MainShip extends Ship {
         this.pos.x = 0;
         this.reloadTimer = 0f;
         frame = 0;
-
     }
 
 }
