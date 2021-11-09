@@ -17,6 +17,8 @@ public class MainShip extends Ship {
     private static final float BOTTOM_MARGIN = 0.03f;
     private static final int INVALID_POINTER = -1;
 
+    private static final int HP = 100;
+
     private static float RELOAD_INTERVAL = 0.5f;
 
     private boolean pressedLeft;
@@ -35,7 +37,7 @@ public class MainShip extends Ship {
         this.bulletHeight = 0.01f;
         this.bulletPos = new Vector2();
         this.damage = 1;
-        this.hp = 1;
+        this.hp = HP;
         this.v = new Vector2();
         this.v0 = new Vector2(0.5f, 0);
         this.reloadInterval = RELOAD_INTERVAL;
@@ -161,12 +163,19 @@ public class MainShip extends Ship {
         v.setZero();
     }
 
-    public void setDefaultValues() {
+    public void startNewGame() {
+        this.hp = HP;
+        leftPointer = INVALID_POINTER;
+        rightPointer = INVALID_POINTER;
+        pressedLeft = false;
+        pressedRight = false;
         this.stop();
+
         this.flushDestroy();
-        this.pos.x = 0;
         this.reloadTimer = 0f;
         frame = 0;
+
+        this.pos.x = worldBounds.pos.x;
     }
 
 }

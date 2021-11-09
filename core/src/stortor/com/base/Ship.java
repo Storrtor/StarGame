@@ -92,4 +92,7 @@ public class Ship extends Sprite {
         explosion.set(this.pos, this.getHeight());
     }
 
+    public int getHp() {
+        return hp;
+    }
 }
