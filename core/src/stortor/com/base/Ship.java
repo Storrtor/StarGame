@@ -9,6 +9,7 @@ import stortor.com.pool.BulletPool;
 import stortor.com.pool.ExplosionPool;
 import stortor.com.sprite.Bullet;
 import stortor.com.sprite.Explosion;
+import stortor.com.sprite.Medicine;
 
 public class Ship extends Sprite {
 

@@ -16,14 +16,17 @@ import stortor.com.math.Rect;
 import stortor.com.pool.BulletPool;
 import stortor.com.pool.EnemyPool;
 import stortor.com.pool.ExplosionPool;
+import stortor.com.pool.MedicinePool;
 import stortor.com.sprite.Background;
 import stortor.com.sprite.Bullet;
 import stortor.com.sprite.EnemyShip;
 import stortor.com.sprite.GameOverMsg;
 import stortor.com.sprite.MainShip;
+import stortor.com.sprite.Medicine;
 import stortor.com.sprite.RestartButton;
 import stortor.com.sprite.Star;
 import stortor.com.util.EnemyEmitter;
+import stortor.com.util.MedicineSpawn;
 
 public class GameScreen extends BaseScreen {
 
@@ -42,17 +45,20 @@ public class GameScreen extends BaseScreen {
     private Texture bg;
     private Background background;
     private TextureAtlas atlas;
+    private TextureAtlas atlasHeal;
 
     private Star stars[];
     private BulletPool bulletPool;
     private EnemyPool enemyPool;
     private ExplosionPool explosionPool;
+    private MedicinePool medicinePool;
 
     private GameOverMsg gameOverMsg;
     private RestartButton restartButton;
 
     private MainShip mainShip;
     private EnemyEmitter enemyEmitter;
+    private MedicineSpawn medicineSpawn;
 
     private int frags;
     private StringBuilder sbFrags;
@@ -71,6 +77,7 @@ public class GameScreen extends BaseScreen {
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
+        atlasHeal = new TextureAtlas("textures/test.tpack");
         bg = new Texture("textures/bg.png");
         background = new Background(bg);
         stars = new Star[STAR_COUNT];
@@ -82,8 +89,10 @@ public class GameScreen extends BaseScreen {
         bulletPool = new BulletPool();
         explosionPool = new ExplosionPool(atlas, explosionSound);
         enemyPool = new EnemyPool(bulletPool, explosionPool, worldBounds, bulletSound);
-        mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
+        medicinePool = new MedicinePool(worldBounds);
         enemyEmitter = new EnemyEmitter(enemyPool, worldBounds, atlas);
+        medicineSpawn = new MedicineSpawn(medicinePool, worldBounds, atlasHeal, enemyEmitter);
+        mainShip = new MainShip(atlas, bulletPool, explosionPool, laserSound);
         frags = 0;
         sbFrags = new StringBuilder();
         sbHp = new StringBuilder();
@@ -97,6 +106,7 @@ public class GameScreen extends BaseScreen {
        bulletPool.freeAllActiveObjects();
        enemyPool.freeAllActiveObjects();
        explosionPool.freeAllActiveObjects();
+       medicinePool.freeAllActiveObjects();
        mainShip.startNewGame();
     }
 
@@ -145,6 +155,14 @@ public class GameScreen extends BaseScreen {
                 }
             }
         }
+        List<Medicine> medicineList = medicinePool.getActiveObjects();
+        for (Medicine medicine: medicineList) {
+            if (!mainShip.isOutside(medicine)) {
+                mainShip.regeneration(medicine.getHealValue());
+                System.out.println(medicine.getHealValue());
+                medicine.destroy();
+            }
+        }
     }
 
     @Override
@@ -172,6 +190,7 @@ public class GameScreen extends BaseScreen {
         explosionPool.dispose();
         explosionSound.dispose();
         font.dispose();
+        atlasHeal.dispose();
     }
 
     @Override
@@ -215,6 +234,8 @@ public class GameScreen extends BaseScreen {
             mainShip.update(delta);
             enemyPool.updateActiveObjects(delta);
             enemyEmitter.generate(delta, frags);
+            medicineSpawn.generate(delta);
+            medicinePool.updateActiveObjects(delta);
         }
         gameOverMsg.update(delta);
         music.play();
@@ -226,6 +247,7 @@ public class GameScreen extends BaseScreen {
         bulletPool.freeAllDestroyed();
         enemyPool.freeAllDestroyed();
         explosionPool.freeAllDestroyed();
+        medicinePool.freeAllDestroyed();
     }
 
     private void draw() {
@@ -237,6 +259,7 @@ public class GameScreen extends BaseScreen {
         if (!mainShip.isDestroyed()) {
             bulletPool.drawActiveObjects(batch);
             enemyPool.drawActiveObjects(batch);
+            medicinePool.drawActiveObjects(batch);
             mainShip.draw(batch);
         }
         if (mainShip.isDestroyed()) {

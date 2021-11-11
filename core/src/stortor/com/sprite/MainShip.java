@@ -73,6 +73,14 @@ public class MainShip extends Ship {
         );
     }
 
+    public void regeneration(int hp) {
+        if (this.hp + hp > HP) {
+            this.hp = HP;
+        } else {
+            this.hp += hp;
+        }
+    }
+
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (touch.x < worldBounds.pos.x) {
