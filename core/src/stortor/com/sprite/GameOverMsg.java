@@ -10,6 +10,7 @@ import stortor.com.math.Rect;
 public class GameOverMsg extends Sprite {
 
     private static final float HEIGHT = 0.06f;
+    private static final float PADDING = 0.75f;
 
     public GameOverMsg(TextureAtlas atlas) {
         super(atlas.findRegion("message_game_over"));
@@ -17,8 +18,7 @@ public class GameOverMsg extends Sprite {
 
     @Override
     public void resize(Rect worldBounds) {
-        super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getTop() - worldBounds.getHalfHeight() * 0.75f);
+        setBottom(worldBounds.getTop() - worldBounds.getHalfHeight() * PADDING);
     }
 }

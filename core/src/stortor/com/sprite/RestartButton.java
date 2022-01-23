@@ -10,8 +10,9 @@ import stortor.com.screen.GameScreen;
 public class RestartButton extends BaseButton {
 
     private static final float HEIGHT = 0.06f;
+    private static final float MARGIN = 1.1f;
 
-    private GameScreen gameScreen;
+    private final GameScreen gameScreen;
 
     public RestartButton(TextureAtlas atlas, GameScreen gameScreen) {
         super(atlas.findRegion("button_new_game"));
@@ -22,12 +23,12 @@ public class RestartButton extends BaseButton {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getTop() - worldBounds.getHalfHeight() * 1.1f);
+        setBottom(worldBounds.getTop() - worldBounds.getHalfHeight() * MARGIN);
     }
 
     @Override
     public void action() {
-        gameScreen.setDefaultProperties();
+        gameScreen.startNewGame();
     }
 
 }
