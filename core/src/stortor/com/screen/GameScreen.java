@@ -18,7 +18,9 @@ import stortor.com.sprite.Background;
 import stortor.com.sprite.Bullet;
 import stortor.com.sprite.EnemyShip;
 import stortor.com.sprite.Explosion;
+import stortor.com.sprite.GameOverMsg;
 import stortor.com.sprite.MainShip;
+import stortor.com.sprite.RestartButton;
 import stortor.com.sprite.Star;
 import stortor.com.util.EnemyEmitter;
 
@@ -41,8 +43,10 @@ public class GameScreen extends BaseScreen {
     private EnemyPool enemyPool;
     private ExplosionPool explosionPool;
 
-    private MainShip mainShip;
+    private GameOverMsg gameOverMsg;
+    private RestartButton restartButton;
 
+    private MainShip mainShip;
     private EnemyEmitter enemyEmitter;
 
     @Override
@@ -61,6 +65,8 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
+        restartButton = new RestartButton(atlas, this);
+        gameOverMsg = new GameOverMsg(atlas);
         bulletPool = new BulletPool();
         explosionPool = new ExplosionPool(atlas, explosionSound);
         enemyPool = new EnemyPool(bulletPool, explosionPool, worldBounds, bulletSound);
@@ -120,6 +126,8 @@ public class GameScreen extends BaseScreen {
             star.resize(worldBounds);
         }
         mainShip.resize(worldBounds);
+        gameOverMsg.resize(worldBounds);
+        restartButton.resize(worldBounds);
     }
 
     @Override
@@ -151,12 +159,14 @@ public class GameScreen extends BaseScreen {
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         mainShip.touchDown(touch, pointer, button);
+        restartButton.touchDown(touch, pointer, button);
         return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         mainShip.touchUp(touch, pointer, button);
+        restartButton.touchUp(touch, pointer, button);
         return false;
     }
 
@@ -170,6 +180,7 @@ public class GameScreen extends BaseScreen {
             enemyPool.updateActiveObjects(delta);
             enemyEmitter.generate(delta);
         }
+        gameOverMsg.update(delta);
         music.play();
         explosionPool.updateActiveObjects(delta);
     }
@@ -191,8 +202,30 @@ public class GameScreen extends BaseScreen {
             enemyPool.drawActiveObjects(batch);
             mainShip.draw(batch);
         }
+        if (mainShip.isDestroyed()) {
+            gameOverMsg.draw(batch);
+            restartButton.draw(batch);
+        }
         explosionPool.drawActiveObjects(batch);
         batch.end();
+    }
+
+    public void setDefaultProperties() {
+        mainShip.setDefaultValues();
+        List<EnemyShip> enemyShipList = enemyPool.getActiveObjects();
+        for (EnemyShip enemyShip : enemyShipList) {
+            if (!enemyShip.isDestroyed()) {
+                enemyShip.destroy();
+            }
+        }
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
+        for (Bullet bullet : bulletList) {
+            bullet.destroy();
+        }
+        List<Explosion> explosionList = explosionPool.getActiveObjects();
+        for (Explosion explosion : explosionList) {
+            explosion.destroy();
+        }
     }
 
 }
